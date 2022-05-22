@@ -6,6 +6,7 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import './index.css'
 
+// eslint-disable-next-line
 const container = document.getElementById('root')!
 const root = createRoot(container)
 
