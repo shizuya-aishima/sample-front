@@ -38,7 +38,6 @@ export const Item: React.FC = () => {
     id: string
   }
   const theme = createTheme()
-  console.log(theme)
 
   const min =
     priceData.itemList
@@ -96,7 +95,7 @@ export const Item: React.FC = () => {
   return (
     <>
       <Paper>
-        <Typography variant='h2'>{'利益計算ツール'}</Typography>
+        <Typography variant='h3'>{'利益計算ツール'}</Typography>
         <TextField
           value={priceData.price}
           label='生成アイテム単価'
@@ -110,7 +109,7 @@ export const Item: React.FC = () => {
         />
         <Typography>99個で￥{(castNum(priceData.price) * 99).toLocaleString()}</Typography>
         <Paper sx={{ textAlign: 'left', m: theme.spacing(2) }}>
-          <Typography variant='h3'>必要素材</Typography>
+          <Typography variant='h4'>必要素材</Typography>
           {priceData.itemList.map((e, i) => (
             <Box key={i} sx={{ mt: theme.spacing(2) }}>
               <TextField value={e.name} label={`素材${i + 1}`} onChange={nameMaterialsHandler(i)} />
@@ -144,7 +143,7 @@ export const Item: React.FC = () => {
               <Add />
             </IconButton>
           </Box>
-          <Typography variant='h3'>
+          <Typography variant='h5'>
             総金額: ￥
             {priceData.itemList
               .map((e) => castNum(e.price) * castNum(e.quantity))
@@ -165,13 +164,13 @@ export const Item: React.FC = () => {
           />
         </Paper>
         <Paper sx={{ textAlign: 'left', m: theme.spacing(2) }}>
-          <Typography variant='h3'>30回作製すると</Typography>
-          <Typography variant='h3'>利益の出る大成功数(MIN)：{Math.ceil(x2)}回</Typography>
-          <Typography variant='h3'>利益の出る成功数(MAX)：{Math.floor(y2)}回</Typography>
+          <Typography variant='h5'>30回作製すると</Typography>
+          <Typography variant='h6'>利益の出る大成功数(MIN)：{Math.ceil(x2)}回</Typography>
+          <Typography variant='h6'>利益の出る成功数(MAX)：{Math.floor(y2)}回</Typography>
           <Box>
-            <Typography variant='h4'>99個作ると</Typography>
-            <Typography variant='h4'>利益の出る大成功数：{Math.ceil(x)}回</Typography>
-            <Typography variant='h4'>利益の出る成功数：{Math.floor(y)}回</Typography>
+            <Typography variant='h5'>99個作ると</Typography>
+            <Typography variant='h6'>利益の出る大成功数：{Math.ceil(x)}回</Typography>
+            <Typography variant='h6'>利益の出る成功数：{Math.floor(y)}回</Typography>
           </Box>
           <Typography variant='h6'>
             最大: ￥{max} 利益：{castNum(priceData.price) * 99 - max}
