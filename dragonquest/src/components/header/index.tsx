@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem'
 import AdbIcon from '@mui/icons-material/Adb'
 import { Link, NavLink, Outlet } from 'react-router-dom'
 
-// const pages = ['items', 'Pricing', 'Blog']
+// const pages = ['Blog']
 const pages: string[] = []
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
 

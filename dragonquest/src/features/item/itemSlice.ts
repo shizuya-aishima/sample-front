@@ -5,6 +5,7 @@ export type ItemState = {
   id: string
   name: string
   price: string
+  tab: string
   expectedValue: ExpectedValue
   itemList: Materials[]
 }
@@ -14,6 +15,8 @@ export type ItemStateOnchange = Omit<ItemState, 'expectedValue' | 'itemList'>
 export type ExpectedValue = {
   greatSuccess: string
   success: string
+  greatSuccessPrice: string
+  successPrice: string
 }
 export type Materials = {
   name: string
@@ -24,9 +27,12 @@ export type Materials = {
 const initialState: ItemState = {
   id: '',
   name: '',
+  tab: '0',
   expectedValue: {
     greatSuccess: '10',
     success: '2',
+    greatSuccessPrice: '1000',
+    successPrice: '100',
   },
   price: '5000',
   itemList: [
