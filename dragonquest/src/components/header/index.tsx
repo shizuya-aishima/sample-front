@@ -13,9 +13,10 @@ import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import AdbIcon from '@mui/icons-material/Adb'
 import { Link, NavLink, Outlet } from 'react-router-dom'
+import { createTheme } from '@mui/system'
 
-// const pages = ['Blog']
-const pages: string[] = []
+const pages = ['items', 'blog']
+// const pages: string[] = []
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
 
 const ResponsiveAppBar = () => {
@@ -39,6 +40,7 @@ const ResponsiveAppBar = () => {
 
   const login = false
 
+  const theme = createTheme()
   return (
     <>
       <AppBar position='static'>
@@ -169,7 +171,9 @@ const ResponsiveAppBar = () => {
           </Toolbar>
         </Container>
       </AppBar>
-      <Outlet />
+      <Box sx={{ mt: theme.spacing(2) }}>
+        <Outlet />
+      </Box>
     </>
   )
 }

@@ -4,7 +4,7 @@ import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import * as React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const cardData = {
   itemName: '虹色のオーブ',
@@ -37,9 +37,9 @@ const TestCard = () => {
         ))}
       </CardContent>
       <CardActions>
-        <Link to='123'>
-          <Button size='small'>Learn More</Button>
-        </Link>
+        <Button size='small' onClick={() => navigate('123')}>
+          Learn More
+        </Button>
       </CardActions>
     </React.Fragment>
   )

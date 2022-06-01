@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { AppThunk, RootState } from '../../app/store'
+import { RootState } from '../../app/store'
+import { Materials } from '../../components/required/types'
 
 export type ItemState = {
   id: string
@@ -18,11 +19,6 @@ export type ExpectedValue = {
   greatSuccessPrice: string
   successPrice: string
 }
-export type Materials = {
-  name: string
-  quantity: string
-  price: string
-}
 
 const initialState: ItemState = {
   id: '',
@@ -31,8 +27,8 @@ const initialState: ItemState = {
   expectedValue: {
     greatSuccess: '10',
     success: '2',
-    greatSuccessPrice: '1000',
-    successPrice: '100',
+    greatSuccessPrice: '30000',
+    successPrice: '10000',
   },
   price: '5000',
   itemList: [

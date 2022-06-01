@@ -1,79 +1,25 @@
-import { Add, Delete } from '@mui/icons-material'
-import { Box, IconButton, Paper, Tab, Tabs, TextField, Typography } from '@mui/material'
+import { Box, Paper, Tab, Tabs, TextField, Typography } from '@mui/material'
 import { createTheme } from '@mui/system'
 import React from 'react'
-import { useParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { RootState } from '../../app/store'
-import { ExpectedValue, itemActions, ItemState, ItemStateOnchange, Materials } from './itemSlice'
-import { castNum } from './utils'
-
-const data = {
-  id: 'XXX-XXX-XXXXXX',
-  name: '虹色のオーブ',
-  price: 5000,
-  expectedValue: {
-    greatSuccess: 10,
-    success: 2,
-  },
-  itemList: [
-    {
-      name: 'レッドオーブ',
-      quantity: 100,
-      price: 100,
-    },
-    {
-      name: 'ブルーオーブ',
-      quantity: 100,
-      price: 100,
-    },
-  ],
-}
+import { castNum, getX, getX2, getY, getY2 } from '../../utils/calculation'
+import { ExpectedValue, itemActions, ItemStateOnchange } from './itemSlice'
+import { RequiredItem } from '../../components/required'
+import { Materials } from '../../components/required/types'
 
 export const Item: React.FC = () => {
   const priceData = useAppSelector((state: RootState) => state.item)
   const dispatch = useAppDispatch()
 
-  type Param = {
-    id: string
-  }
   const theme = createTheme()
 
-  const min =
-    priceData.itemList
-      .map((e) => castNum(e.quantity) * castNum(e.price))
-      .reduce((sum, e) => sum + e, 0) *
-    (99 / data.expectedValue.success)
-  const max =
-    priceData.itemList
-      .map((e) => castNum(e.quantity) * castNum(e.price))
-      .reduce((sum, e) => sum + e, 0) *
-    (99 / data.expectedValue.greatSuccess)
+  const x = getX((state: RootState) => state.item)
 
-  const m = priceData.itemList
-    .map((e) => castNum(e.price) * castNum(e.quantity))
-    .reduce((sum, e) => sum + e, 0)
-  const x =
-    ((castNum(priceData.price) * castNum(priceData.expectedValue.success) - m) * 99) /
-    (castNum(priceData.expectedValue.success) * m -
-      castNum(priceData.expectedValue.greatSuccess) * m)
+  const y = getY((state: RootState) => state.item, x)
 
-  const y =
-    (99 - x * castNum(priceData.expectedValue.greatSuccess)) /
-    castNum(priceData.expectedValue.success)
-
-  const py =
-    priceData.tab === '0'
-      ? castNum(priceData.price) * castNum(priceData.expectedValue.success)
-      : castNum(priceData.expectedValue.successPrice)
-
-  const px =
-    priceData.tab === '0'
-      ? castNum(priceData.price) * castNum(priceData.expectedValue.greatSuccess)
-      : castNum(priceData.expectedValue.greatSuccessPrice)
-
-  const x2 = (30 * py - 30 * m) / (py - px)
-  const y2 = 30 - x2
+  const x2 = getX2((state: RootState) => state.item)
+  const y2 = getY2(x2)
 
   // handler関数を作成する関数
   const formHandler =
@@ -94,9 +40,6 @@ export const Item: React.FC = () => {
   const priceHandler = formHandler('price')
   const tabHandler = (event: React.SyntheticEvent, newValue: number) =>
     dispatch(itemActions.onChange({ key: 'tab', value: newValue.toString() }))
-  const nameMaterialsHandler = (index: number) => materialsHandler(index, 'name')
-  const priceMaterialsHandler = (index: number) => materialsHandler(index, 'price')
-  const quantityMaterialsHandler = (index: number) => materialsHandler(index, 'quantity')
   const greatSuccessHandler = expectedHandler('greatSuccess')
   const successHandler = expectedHandler('success')
   const greatSuccessPriceHandler = expectedHandler('greatSuccessPrice')
@@ -138,51 +81,12 @@ export const Item: React.FC = () => {
         <Typography>99個で￥{(castNum(priceData.price) * 99).toLocaleString()}</Typography>
         <Paper sx={{ textAlign: 'left', m: theme.spacing(2) }}>
           <Box sx={{ p: 3 }}>
-            <Typography variant='h4'>必要素材</Typography>
-            {priceData.itemList.map((e, i) => (
-              <Box key={i} sx={{ mt: theme.spacing(2) }}>
-                <TextField
-                  value={e.name}
-                  label={`素材${i + 1}`}
-                  onChange={nameMaterialsHandler(i)}
-                />
-                <TextField
-                  value={e.price}
-                  label='金額'
-                  inputProps={{
-                    inputMode: 'numeric',
-                    pattern: '[0-9]*',
-                    type: 'number',
-                  }}
-                  onChange={priceMaterialsHandler(i)}
-                />
-                <TextField
-                  value={e.quantity}
-                  label='素材数'
-                  inputProps={{
-                    inputMode: 'numeric',
-                    pattern: '[0-9]*',
-                    type: 'number',
-                  }}
-                  onChange={quantityMaterialsHandler(i)}
-                />
-                <IconButton onClick={() => deleteMaterial(i)}>
-                  <Delete />
-                </IconButton>
-              </Box>
-            ))}
-            <Box sx={{ textAlign: 'center' }}>
-              <IconButton onClick={addMaterial}>
-                <Add />
-              </IconButton>
-            </Box>
-            <Typography variant='h5'>
-              総金額: ￥
-              {priceData.itemList
-                .map((e) => castNum(e.price) * castNum(e.quantity))
-                .reduce((sum, e) => sum + e, 0)
-                .toLocaleString()}
-            </Typography>
+            <RequiredItem
+              getState={(state: RootState) => state.item.itemList}
+              materialsHandler={materialsHandler}
+              addMaterial={addMaterial}
+              deleteMaterial={deleteMaterial}
+            />
           </Box>
         </Paper>
         <Paper sx={{ textAlign: 'left', m: theme.spacing(2) }}>
@@ -243,14 +147,6 @@ export const Item: React.FC = () => {
             <Typography variant='h6'>利益の出る大成功数：{Math.ceil(x)}回</Typography>
             <Typography variant='h6'>利益の出る成功数：{Math.floor(y)}回</Typography>
           </TabPanel>
-          <Box sx={{ p: 3 }}>
-            <Typography variant='h6'>
-              最大: ￥{max} 利益：{castNum(priceData.price) * 99 - max}
-            </Typography>
-            <Typography variant='h6'>
-              最小: ￥{min} 利益：{castNum(priceData.price) * 99 - min}
-            </Typography>
-          </Box>
         </Paper>
       </Paper>
     </>
