@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import ResponsiveAppBar from './components/header'
+import { Blog } from './features/blog'
 import { Counter } from './features/counter/Counter'
 import { Item } from './features/item'
 import { ItemList } from './features/itemList'
@@ -17,6 +18,7 @@ const App: React.FC = () => {
               <Route path='counter' element={<Counter />} />
               <Route path='items' element={<ItemList />} />
               <Route path='items/:id' element={<Item />} />
+              <Route path='blog' element={<Blog />} />
               <Route path='*' element={<>not</>} />
             </Route>
           </Routes>
