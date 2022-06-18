@@ -171,7 +171,7 @@ const ResponsiveAppBar = () => {
           </Toolbar>
         </Container>
       </AppBar>
-      <Box sx={{ mt: theme.spacing(2) }}>
+      <Box sx={{ mt: theme.spacing(2), maxWidth: '1300px', width: '100%' }}>
         <Outlet />
       </Box>
     </>
