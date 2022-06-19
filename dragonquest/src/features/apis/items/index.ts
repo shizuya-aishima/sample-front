@@ -3,11 +3,11 @@ import { SearchReply, SearchRequest } from '../../../proto/item_pb'
 import { ItemClient } from '../../../proto/item_pb_service'
 
 const getUrl = () => {
-  console.log(location.host)
+  console.log(location.protocol + '//' + location.host + '/item')
   console.log(location.host === 'sample-front-slunvn5d4q-uc.a.run.app')
-  return location.host === 'sample-front-slunvn5d4q-uc.a.run.app'
-    ? 'https://item-grpc-4mbh3pke.uc.gateway.dev'
-    : 'http://localhost:8080'
+  return location.host === 'localhost:3000'
+    ? 'http://localhost:8080'
+    : location.protocol + '//' + location.host + '/item'
 }
 
 export const itemsInstance = () => new ItemClient(getUrl())
@@ -17,7 +17,7 @@ export const itemSearchGrpc = async (client: ItemClient, data: SearchRequest) =>
     // APIクライアントを利用して、gRPCエンドポイントにリクエストを実行する
     const dataList: SearchReply[] = []
     const metadata = new grpc.Metadata()
-    metadata.append('Access-Control-Allow-Origin', '*')
+    // metadata.append('Access-Control-Allow-Origin', '*')
     client
       .search(data, metadata)
       .on('data', (message) => {
