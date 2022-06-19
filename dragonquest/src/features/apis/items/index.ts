@@ -1,14 +1,22 @@
+import { grpc } from '@improbable-eng/grpc-web'
 import { SearchReply, SearchRequest } from '../../../proto/item_pb'
 import { ItemClient } from '../../../proto/item_pb_service'
 
-export const itemsInstance = () => new ItemClient('http://localhost:8080')
+const getUrl = () =>
+  location.host === 'sample-front-slunvn5d4q-uc.a.run.app'
+    ? 'https://item-grpc-4mbh3pke.uc.gateway.dev'
+    : 'http://localhost:8080'
+
+export const itemsInstance = () => new ItemClient(getUrl())
 // 注文作成APIへリクエストする
 export const itemSearchGrpc = async (client: ItemClient, data: SearchRequest) => {
   return await new Promise<SearchReply[]>((resolve, reject) => {
     // APIクライアントを利用して、gRPCエンドポイントにリクエストを実行する
     const dataList: SearchReply[] = []
+    const metadata = new grpc.Metadata()
+    metadata.append('Access-Control-Allow-Origin', '*')
     client
-      .search(data)
+      .search(data, metadata)
       .on('data', (message) => {
         dataList.push(message)
       })
