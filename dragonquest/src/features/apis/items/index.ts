@@ -7,7 +7,7 @@ const getUrl = () => {
   console.log(location.host === 'sample-front-slunvn5d4q-uc.a.run.app')
   return location.host === 'localhost:3000'
     ? 'http://localhost:8080'
-    : location.protocol + '//' + location.host + '/item'
+    : location.protocol + '//' + location.host + '/grpc/item'
 }
 
 export const itemsInstance = () => new ItemClient(getUrl())
