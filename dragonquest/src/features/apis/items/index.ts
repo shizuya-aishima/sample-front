@@ -2,10 +2,13 @@ import { grpc } from '@improbable-eng/grpc-web'
 import { SearchReply, SearchRequest } from '../../../proto/item_pb'
 import { ItemClient } from '../../../proto/item_pb_service'
 
-const getUrl = () =>
-  location.host === 'sample-front-slunvn5d4q-uc.a.run.app'
+const getUrl = () => {
+  console.log(location.host)
+  console.log(location.host === 'sample-front-slunvn5d4q-uc.a.run.app')
+  return location.host === 'sample-front-slunvn5d4q-uc.a.run.app'
     ? 'https://item-grpc-4mbh3pke.uc.gateway.dev'
     : 'http://localhost:8080'
+}
 
 export const itemsInstance = () => new ItemClient(getUrl())
 // 注文作成APIへリクエストする
