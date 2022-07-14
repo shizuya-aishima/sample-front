@@ -160,12 +160,35 @@ const search = (call) => {
   console.log(call)
   call.end()
 }
+
+const find = (call, callback) => {
+  const data = {
+    item_ids: [
+      {
+        id: 'a38868a6-7693-498f-9aaa-5fc475388148',
+        name: 'TESTNAME',
+        quantity: '20',
+        price: 1000,
+      },
+    ],
+    id: '2f98ee1b-a57d-4787-adda-690faceb327d',
+    name: 'TESTNAME2',
+    price: 1000,
+    expected: {
+      greatSuccess: '200',
+      success: '200',
+    },
+  }
+  // レスポンスを返す
+  callback(null, { ...data })
+}
 // サーバの設定
 function main() {
   const server = new grpc.Server()
   // モックの組み込み
   server.addService(messageService.service, {
     search: search,
+    find: find,
   })
   server.bind('0.0.0.0:50051', grpc.ServerCredentials.createInsecure())
   server.start()
