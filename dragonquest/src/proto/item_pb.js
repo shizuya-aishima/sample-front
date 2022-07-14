@@ -828,7 +828,8 @@ proto.item.Bean.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
     name: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    quantity: jspb.Message.getFieldWithDefault(msg, 3, 0)
+    quantity: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    price: jspb.Message.getFieldWithDefault(msg, 4, 0)
   };
 
   if (includeInstance) {
@@ -877,6 +878,10 @@ proto.item.Bean.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {number} */ (reader.readInt64());
       msg.setQuantity(value);
       break;
+    case 4:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setPrice(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -924,6 +929,13 @@ proto.item.Bean.serializeBinaryToWriter = function(message, writer) {
   if (f !== 0) {
     writer.writeInt64(
       3,
+      f
+    );
+  }
+  f = message.getPrice();
+  if (f !== 0) {
+    writer.writeInt64(
+      4,
       f
     );
   }
@@ -981,6 +993,24 @@ proto.item.Bean.prototype.getQuantity = function() {
  */
 proto.item.Bean.prototype.setQuantity = function(value) {
   return jspb.Message.setProto3IntField(this, 3, value);
+};
+
+
+/**
+ * optional int64 price = 4;
+ * @return {number}
+ */
+proto.item.Bean.prototype.getPrice = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.item.Bean} returns this
+ */
+proto.item.Bean.prototype.setPrice = function(value) {
+  return jspb.Message.setProto3IntField(this, 4, value);
 };
 
 

@@ -93,6 +93,9 @@ export class Bean extends jspb.Message {
   getQuantity(): number;
   setQuantity(value: number): void;
 
+  getPrice(): number;
+  setPrice(value: number): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Bean.AsObject;
   static toObject(includeInstance: boolean, msg: Bean): Bean.AsObject;
@@ -108,6 +111,7 @@ export namespace Bean {
     id: string,
     name: string,
     quantity: number,
+    price: number,
   }
 }
 

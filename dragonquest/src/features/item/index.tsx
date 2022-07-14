@@ -1,19 +1,26 @@
 import { Box, Button, Paper, Typography } from '@mui/material'
 import { createTheme } from '@mui/system'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { RootState } from '../../app/store'
 import { RequiredItem } from '../../components/required'
 import { Materials } from '../../components/required/types'
-import { calculation, itemActions, ItemStateOnchange } from './itemSlice'
+import { itemsInstance } from '../apis/items'
+import { calculation, findAsync, itemActions, ItemStateOnchange } from './itemSlice'
 import { Standard } from './standard'
 import { ExpectedValue } from './standard/types'
 
 export const Item: React.FC = () => {
-  // const priceData = useAppSelector((state: RootState) => state.item)
   const dispatch = useAppDispatch()
 
   const theme = createTheme()
+
+  type Param = {
+    id?: string
+  }
+
+  const params = useParams<Param>()
 
   // handler関数を作成する関数
   const formHandler =
@@ -41,14 +48,17 @@ export const Item: React.FC = () => {
   const addMaterial = () => dispatch(itemActions.addList())
   const deleteMaterial = (index: number) => dispatch(itemActions.deleteMaterial(index))
 
+  const client = itemsInstance()
+  useEffect(() => {
+    if (params.id) {
+      dispatch(findAsync({ client, id: params.id }))
+    }
+  }, [params.id])
+
   return (
     <>
       <Paper>
         <Typography variant='h3'>{'利益計算ツール'}</Typography>
-        {/* <Typography>
-          99個で￥
-          {(castNum(useAppSelector((state: RootState) => state.item.price)) * 99).toLocaleString()}
-        </Typography> */}
         <Paper sx={{ textAlign: 'left', m: theme.spacing(2) }}>
           <Box sx={{ p: 3 }}>
             <RequiredItem
@@ -72,7 +82,7 @@ export const Item: React.FC = () => {
             tabHandler={tabHandler}
           />
         </Paper>
-        <Button variant='contained' onClick={() => dispatch(calculation())}>
+        <Button variant='contained' onClick={() => dispatch(calculation(params.id))}>
           計算
         </Button>
         <Paper sx={{ textAlign: 'left', m: theme.spacing(2) }}>

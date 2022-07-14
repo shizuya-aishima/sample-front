@@ -13,6 +13,7 @@ export type ItemListState = {
 }
 export type Item = {
   name: string
+  id: string
   materialList: Material[]
 }
 
@@ -44,6 +45,7 @@ export const searchAsync = createAsyncThunk<
   return itemSearchGrpc(client, data).then((tes) =>
     tes.map((e) => ({
       name: e.getName(),
+      id: e.getId(),
       materialList: e.getItemIdsList().map((ele) => ({
         itemName: ele.getName(),
         quantity: ele.getQuantity(),

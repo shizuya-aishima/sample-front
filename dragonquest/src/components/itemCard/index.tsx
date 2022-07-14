@@ -22,7 +22,7 @@ export const OutlinedCard: React.FC<OutlinedCardProps> = (props) => {
         ))}
       </CardContent>
       <CardActions>
-        <Button size='small' onClick={() => navigate('123')}>
+        <Button size='small' onClick={() => navigate(props.item.id)}>
           Learn More
         </Button>
       </CardActions>

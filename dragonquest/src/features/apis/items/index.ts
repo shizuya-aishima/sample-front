@@ -1,5 +1,11 @@
 import { grpc } from '@improbable-eng/grpc-web'
-import { SearchReply, SearchRequest } from '../../../proto/item_pb'
+import {
+  ItemFindReply,
+  ItemFindRequest,
+  SearchReply,
+  SearchRequest,
+  UpdateRequest,
+} from '../../../proto/item_pb'
 import { ItemClient } from '../../../proto/item_pb_service'
 
 const getUrl = () => {
@@ -33,5 +39,33 @@ export const itemSearchGrpc = async (client: ItemClient, data: SearchRequest) =>
         }
       })
   })
-  // console.log(response.getOrder().toObject())
+}
+
+// 注文作成APIへリクエストする
+export const itemUpdateGrpc = async (client: ItemClient, data: UpdateRequest) => {
+  return await new Promise<boolean>((resolve, reject) => {
+    // APIクライアントを利用して、gRPCエンドポイントにリクエストを実行する
+    client.update(data, (error, responseMessage) => {
+      if (error) {
+        reject(error)
+      }
+      if (responseMessage) {
+        resolve(responseMessage.getStatus() == 1 ? true : false)
+      }
+    })
+  })
+}
+
+export const itemFindGrpc = async (client: ItemClient, data: ItemFindRequest) => {
+  return await new Promise<ItemFindReply>((resolve, reject) => {
+    // APIクライアントを利用して、gRPCエンドポイントにリクエストを実行する
+    client.find(data, (error, responseMessage) => {
+      if (error) {
+        reject(error)
+      }
+      if (responseMessage) {
+        resolve(responseMessage)
+      }
+    })
+  })
 }

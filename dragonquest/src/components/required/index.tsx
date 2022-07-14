@@ -8,7 +8,7 @@ import { RequiredProps } from './types'
 
 export const RequiredItem: React.FC<RequiredProps> = (props) => {
   const itemList = useAppSelector(props.getState)
-
+  console.log(itemList)
   const nameMaterialsHandler = (index: number) => props.materialsHandler(index, 'name')
   const priceMaterialsHandler = (index: number) => props.materialsHandler(index, 'price')
   const quantityMaterialsHandler = (index: number) => props.materialsHandler(index, 'quantity')
