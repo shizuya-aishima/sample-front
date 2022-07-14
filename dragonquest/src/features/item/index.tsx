@@ -7,7 +7,7 @@ import { RootState } from '../../app/store'
 import { RequiredItem } from '../../components/required'
 import { Materials } from '../../components/required/types'
 import { itemsInstance } from '../apis/items'
-import { calculation, findAsync, itemActions, ItemStateOnchange } from './itemSlice'
+import { calculation, findAsync, itemActions, ItemStateOnchange, updateAsync } from './itemSlice'
 import { Standard } from './standard'
 import { ExpectedValue } from './standard/types'
 
@@ -82,7 +82,15 @@ export const Item: React.FC = () => {
             tabHandler={tabHandler}
           />
         </Paper>
-        <Button variant='contained' onClick={() => dispatch(calculation(params.id))}>
+        <Button
+          variant='contained'
+          onClick={() => {
+            if (params.id) {
+              dispatch(updateAsync({ client: client, id: params.id }))
+            }
+            dispatch(calculation(client, params.id))
+          }}
+        >
           計算
         </Button>
         <Paper sx={{ textAlign: 'left', m: theme.spacing(2) }}>

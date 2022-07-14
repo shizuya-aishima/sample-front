@@ -69,9 +69,9 @@ const addMaterial: Materials = {
   quantity: '1',
 }
 
-export const searchAsync = createAsyncThunk<
+export const updateAsync = createAsyncThunk<
   // 戻り値の型
-  boolean,
+  void,
   // 引数の型
   { client: ItemClient; id: string },
   // thunkApi の型
@@ -79,7 +79,7 @@ export const searchAsync = createAsyncThunk<
     dispatch: AppDispatch
     state: RootState
   }
->('item/fetchCount', async ({ client, id }, thunkApi) => {
+>('item/update', async ({ client, id }, thunkApi) => {
   const data = new UpdateRequest()
   const screenData = thunkApi.getState().item
   data.setName(screenData.name)
@@ -88,6 +88,7 @@ export const searchAsync = createAsyncThunk<
   screenData.itemList.map((e) => {
     const bean = new Bean()
     bean.setName(e.name)
+    bean.setPrice(castNum(e.price))
     bean.setQuantity(castNum(e.quantity))
     return bean
   })
@@ -178,6 +179,15 @@ export const itemSlice = createSlice({
       .addCase(findAsync.rejected, (state) => {
         state.status = 'failed'
       })
+      .addCase(updateAsync.pending, (state) => {
+        state.status = 'loading'
+      })
+      .addCase(updateAsync.fulfilled, (state) => {
+        state.status = 'idle'
+      })
+      .addCase(updateAsync.rejected, (state) => {
+        state.status = 'failed'
+      })
   },
 })
 
@@ -191,7 +201,7 @@ export const selectCount = (state: RootState) => state.counter.value
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.
 export const calculation =
-  (id?: string): AppThunk =>
+  (client: ItemClient, id?: string): AppThunk =>
   (dispatch, getState) => {
     const currentValue = getState().item
     const x = getX(currentValue)

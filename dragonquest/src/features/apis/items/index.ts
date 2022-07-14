@@ -4,6 +4,7 @@ import {
   ItemFindRequest,
   SearchReply,
   SearchRequest,
+  UpdateReply,
   UpdateRequest,
 } from '../../../proto/item_pb'
 import { ItemClient } from '../../../proto/item_pb_service'
@@ -43,14 +44,14 @@ export const itemSearchGrpc = async (client: ItemClient, data: SearchRequest) =>
 
 // 注文作成APIへリクエストする
 export const itemUpdateGrpc = async (client: ItemClient, data: UpdateRequest) => {
-  return await new Promise<boolean>((resolve, reject) => {
+  return await new Promise<void>((resolve, reject) => {
     // APIクライアントを利用して、gRPCエンドポイントにリクエストを実行する
     client.update(data, (error, responseMessage) => {
       if (error) {
         reject(error)
       }
       if (responseMessage) {
-        resolve(responseMessage.getStatus() == 1 ? true : false)
+        resolve()
       }
     })
   })
@@ -60,6 +61,20 @@ export const itemFindGrpc = async (client: ItemClient, data: ItemFindRequest) =>
   return await new Promise<ItemFindReply>((resolve, reject) => {
     // APIクライアントを利用して、gRPCエンドポイントにリクエストを実行する
     client.find(data, (error, responseMessage) => {
+      if (error) {
+        reject(error)
+      }
+      if (responseMessage) {
+        resolve(responseMessage)
+      }
+    })
+  })
+}
+
+export const updateGrpc = async (client: ItemClient, data: UpdateRequest) => {
+  return await new Promise<UpdateReply>((resolve, reject) => {
+    // APIクライアントを利用して、gRPCエンドポイントにリクエストを実行する
+    client.update(data, (error, responseMessage) => {
       if (error) {
         reject(error)
       }
