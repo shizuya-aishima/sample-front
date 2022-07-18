@@ -11,6 +11,7 @@ export type RequiredProps = {
 }
 
 export type Materials = {
+  id: string
   name: string
   quantity: string
   price: string
