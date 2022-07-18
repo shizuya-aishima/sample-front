@@ -168,6 +168,9 @@ export class UpdateRequest extends jspb.Message {
   getExpected(): ExpectedValue | undefined;
   setExpected(value?: ExpectedValue): void;
 
+  getPrice(): number;
+  setPrice(value: number): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): UpdateRequest.AsObject;
   static toObject(includeInstance: boolean, msg: UpdateRequest): UpdateRequest.AsObject;
@@ -184,6 +187,7 @@ export namespace UpdateRequest {
     name: string,
     itemIdsList: Array<Bean.AsObject>,
     expected?: ExpectedValue.AsObject,
+    price: number,
   }
 }
 

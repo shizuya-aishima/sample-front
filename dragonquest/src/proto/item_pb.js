@@ -1328,7 +1328,8 @@ proto.item.UpdateRequest.toObject = function(includeInstance, msg) {
     name: jspb.Message.getFieldWithDefault(msg, 2, ""),
     itemIdsList: jspb.Message.toObjectList(msg.getItemIdsList(),
     proto.item.Bean.toObject, includeInstance),
-    expected: (f = msg.getExpected()) && proto.item.ExpectedValue.toObject(includeInstance, f)
+    expected: (f = msg.getExpected()) && proto.item.ExpectedValue.toObject(includeInstance, f),
+    price: jspb.Message.getFieldWithDefault(msg, 5, 0)
   };
 
   if (includeInstance) {
@@ -1382,6 +1383,10 @@ proto.item.UpdateRequest.deserializeBinaryFromReader = function(msg, reader) {
       var value = new proto.item.ExpectedValue;
       reader.readMessage(value,proto.item.ExpectedValue.deserializeBinaryFromReader);
       msg.setExpected(value);
+      break;
+    case 5:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setPrice(value);
       break;
     default:
       reader.skipField();
@@ -1440,6 +1445,13 @@ proto.item.UpdateRequest.serializeBinaryToWriter = function(message, writer) {
       4,
       f,
       proto.item.ExpectedValue.serializeBinaryToWriter
+    );
+  }
+  f = message.getPrice();
+  if (f !== 0) {
+    writer.writeInt64(
+      5,
+      f
     );
   }
 };
@@ -1553,6 +1565,24 @@ proto.item.UpdateRequest.prototype.clearExpected = function() {
  */
 proto.item.UpdateRequest.prototype.hasExpected = function() {
   return jspb.Message.getField(this, 4) != null;
+};
+
+
+/**
+ * optional int64 price = 5;
+ * @return {number}
+ */
+proto.item.UpdateRequest.prototype.getPrice = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 5, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.item.UpdateRequest} returns this
+ */
+proto.item.UpdateRequest.prototype.setPrice = function(value) {
+  return jspb.Message.setProto3IntField(this, 5, value);
 };
 
 
