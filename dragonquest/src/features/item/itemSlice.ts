@@ -39,11 +39,13 @@ const initialState: ItemState = {
   price: '5000',
   itemList: [
     {
+      id: 'XXX',
       name: 'レッドオーブ',
       quantity: '100',
       price: '100',
     },
     {
+      id: 'XXX',
       name: 'ブルーオーブ',
       quantity: '100',
       price: '100',
@@ -64,6 +66,7 @@ type Results = {
   y2: number
 }
 const addMaterial: Materials = {
+  id: 'XXX',
   name: '',
   price: '0',
   quantity: '1',
@@ -90,6 +93,7 @@ export const updateAsync = createAsyncThunk<
   data.setItemIdsList(
     screenData.itemList.map((e) => {
       const bean = new Bean()
+      bean.setId(e.id)
       bean.setName(e.name)
       bean.setPrice(castNum(e.price))
       bean.setQuantity(castNum(e.quantity))
@@ -126,6 +130,7 @@ export const findAsync = createAsyncThunk<
       tab: '0',
       price: e.getPrice().toFixed(),
       itemList: e.getItemIdsList().map((e) => ({
+        id: e.getId(),
         name: e.getName(),
         quantity: e.getQuantity().toFixed(),
         price: e.getPrice().toFixed(),
