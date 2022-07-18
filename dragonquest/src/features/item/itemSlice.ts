@@ -7,6 +7,7 @@ import {
   ItemFindReply,
   ItemFindRequest,
   UpdateRequest,
+  ExpectedValue as ExpectedValue2,
 } from '../../proto/item_pb'
 import { ItemClient } from '../../proto/item_pb_service'
 import { castNum, getX, getX2, getY, getY2 } from '../../utils/calculation'
@@ -89,7 +90,15 @@ export const updateAsync = createAsyncThunk<
   // data.setPrice(castNum(screenData.price))
   data.setId(id)
   data.setPrice(castNum(screenData.price))
-
+  const getExpected = () => {
+    const expected = new ExpectedValue2()
+    expected.setGreatsuccess(castNum(screenData.expectedValue.greatSuccess))
+    expected.setSuccess(castNum(screenData.expectedValue.success))
+    expected.setGreatsuccessprice(castNum(screenData.expectedValue.greatSuccessPrice))
+    expected.setSuccessprice(castNum(screenData.expectedValue.successPrice))
+    return expected
+  }
+  data.setExpected(getExpected())
   data.setItemIdsList(
     screenData.itemList.map((e) => {
       const bean = new Bean()
