@@ -86,14 +86,16 @@ export const updateAsync = createAsyncThunk<
   // data.setPrice(castNum(screenData.price))
   data.setId(id)
   data.setPrice(castNum(screenData.price))
-  screenData.itemList.map((e) => {
-    const bean = new Bean()
-    bean.setName(e.name)
-    bean.setPrice(castNum(e.price))
-    bean.setQuantity(castNum(e.quantity))
-    return bean
-  })
-  data.setItemIdsList([])
+
+  data.setItemIdsList(
+    screenData.itemList.map((e) => {
+      const bean = new Bean()
+      bean.setName(e.name)
+      bean.setPrice(castNum(e.price))
+      bean.setQuantity(castNum(e.quantity))
+      return bean
+    }),
+  )
   return itemUpdateGrpc(client, data)
 })
 
