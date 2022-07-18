@@ -85,6 +85,7 @@ export const updateAsync = createAsyncThunk<
   data.setName(screenData.name)
   // data.setPrice(castNum(screenData.price))
   data.setId(id)
+  data.setPrice(castNum(screenData.price))
   screenData.itemList.map((e) => {
     const bean = new Bean()
     bean.setName(e.name)
